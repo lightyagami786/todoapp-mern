@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 app.get('/api/get',(req,res)=>{
-    const sqlIns="select * from ourbbdata";
+    const sqlIns="select * from keepr";
     db.query(sqlIns,(err,result)=>{
         console.log("ERROR",err);
         res.send(result);
@@ -27,20 +27,20 @@ app.get('/api/get',(req,res)=>{
 });
 
 app.post("/api/post",(req,res)=>{
-    const {sno,qty,item,amount}=req.body;
-    const sqlQuery="insert into ourbbdata(sno,qty,item,amount) values(?,?,?,?)";
-    db.query(sqlQuery,[sno,qty,item,amount],(error,result)=>{
+    const {id,item}=req.body;
+    const sqlQuery="insert into keepr(id,item) values(?,?)";
+    db.query(sqlQuery,[id,item],(error,result)=>{
         console.log("esql",error);
         res.send("got it");
     });
 });
 
-app.delete("/api/remove/:sno",(req,res)=>{
-    const {sno}=req.params;
-    console.log("item are ",sno);
-    res.send(sno)
-    const sqlRem="delete from ourbbdata where sno= ?";
-    db.query(sqlRem,sno,(error,result)=>{
+app.delete("/api/remove/:id",(req,res)=>{
+    const {id}=req.params;
+    console.log("item are ",id);
+    res.send(id)
+    const sqlRem="delete from keepr where id= ?";
+    db.query(sqlRem,id,(error,result)=>{
         if(error){
             console.log(error);
         }
@@ -49,7 +49,7 @@ app.delete("/api/remove/:sno",(req,res)=>{
 
 app.get("/api/get/:id",(req,res)=>{
     const {id}=req.params;
-    const sqlGet="select * from ourbbdata where sno =?";
+    const sqlGet="select * from keepr where id =?";
     db.query(sqlGet,id,(error,result)=>{
         if(error){
             console.log(error);
@@ -58,11 +58,11 @@ app.get("/api/get/:id",(req,res)=>{
     });
 });
 
-app.put("/api/update/:id",(req,res)=>{
-    const {id}=req.params;
-    const {sno,qty,item,amount}=req.body;
-    const sqlUpdate="update ourbbdata set sno=? , qty=? , item=? , amount=? where sno=?";
-    db.query(sqlUpdate,[sno,qty,item,amount,id],(error,result)=>{
+app.put("/api/update/:ide",(req,res)=>{
+    const {ide}=req.params;
+    const {id,item}=req.body;
+    const sqlUpdate="update keepr set id=? , item=?  where id=?";
+    db.query(sqlUpdate,[id,item,ide],(error,result)=>{
         if(error){
             console.log(error);
         }
@@ -71,7 +71,7 @@ app.put("/api/update/:id",(req,res)=>{
 });
 
 app.get('/',(req,res)=>{
-    // const sqlIns="INSERT INTO ourbbdata(sno,qty,item,amount) values (1,50,'curtain',5000)";
+    // const sqlIns="INSERT INTO keepr(id,qty,item,amount) values (1,50,'curtain',5000)";
     // db.query(sqlIns,(err,result)=>{
     //     console.log("ERROR",err);
     //});
